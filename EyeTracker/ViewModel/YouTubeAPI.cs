@@ -93,8 +93,8 @@ namespace EyeTracker.ViewModel
         }
         #endregion
 
-        private string selectedItem;
-        public string SelectedItem
+        private Model.Lista selectedItem;
+        public Model.Lista SelectedItem
         {
             get { return selectedItem; }
             set
@@ -170,7 +170,6 @@ namespace EyeTracker.ViewModel
         public string ReturnId(string myTitle, int start)
         {
             var videoRequest = ytService.Search.List("snippet");
-
             videoRequest.Q = myTitle;
 
             var response = videoRequest.Execute();
@@ -196,15 +195,10 @@ namespace EyeTracker.ViewModel
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string name)
         {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(name));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
         private ICommand letsSearchCommand;
-
         public ICommand LetsSearch
         {
             get
@@ -278,7 +272,7 @@ namespace EyeTracker.ViewModel
     public static class WebBrowserHelper
     {
         public static readonly DependencyProperty LinkSourceProperty =
-            DependencyProperty.RegisterAttached("LinkSource", typeof(string), typeof(WebBrowserHelper), new UIPropertyMetadata(null, LinkSourcePropertyChanged));
+            DependencyProperty.RegisterAttached("LinkSource", typeof(Model.Lista), typeof(WebBrowserHelper), new UIPropertyMetadata(null, LinkSourcePropertyChanged));
 
         public static string GetLinkSource(DependencyObject obj)
         {
@@ -296,7 +290,8 @@ namespace EyeTracker.ViewModel
             var browser = o as System.Windows.Controls.WebBrowser;
             if (browser != null)
             {
-                string title = e.NewValue as string;
+                Model.Lista list = e.NewValue as Model.Lista;
+                string title = list.Title;
                 string uri = yt.ReturnId(title,0);
                 browser.Source = uri != null ? new Uri(uri) : null;
             }

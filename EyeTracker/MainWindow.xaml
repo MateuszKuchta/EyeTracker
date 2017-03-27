@@ -24,7 +24,7 @@
 
         </WebBrowser>
         <ListView x:Name="playList" Margin="0,10,10,10" HorizontalAlignment="Right" Width="284" HorizontalContentAlignment="Stretch"
-                  SelectedItem="{Binding SelectedItem, UpdateSourceTrigger=PropertyChanged}">
+                  SelectedItem="{Binding Path=SelectedItem, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Grid>
@@ -33,7 +33,7 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Image HorizontalAlignment="Left" Source="{Binding Img}" />
-                        <TextBlock FontSize="15" Grid.Column="1" Text="{Binding Title}"/>
+                        <TextBlock x:Name="titleBlock" FontSize="15" Grid.Column="1" Text="{Binding Title}"/>
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>

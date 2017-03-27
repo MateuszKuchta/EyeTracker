@@ -26,6 +26,5 @@ namespace EyeTracker
             InitializeComponent();
             DataContext = new YouTubeAPI();
         }
-        
     }
 }
