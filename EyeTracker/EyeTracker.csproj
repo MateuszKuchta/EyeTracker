@@ -124,6 +124,7 @@
     <Compile Include="Model\Lista.cs" />
     <Compile Include="ViewModel\MvvmCommand.cs" />
     <Compile Include="ViewModel\UIHelper.cs" />
+    <Compile Include="ViewModel\WebBrowserHelper.cs" />
     <Compile Include="ViewModel\YouTubeAPI.cs" />
     <Compile Include="Model\Model.cs" />
     <Page Include="MainWindow.xaml">
