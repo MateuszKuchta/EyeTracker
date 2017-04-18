@@ -91,7 +91,6 @@ namespace EyeTracker.ViewModel
                 OnPropertyChanged("myListBox");
             }
         }
-        #endregion
 
         private Model.Lista selectedItem;
         public Model.Lista SelectedItem
@@ -103,6 +102,7 @@ namespace EyeTracker.ViewModel
                 OnPropertyChanged("SelectedItem");
             }
         }
+        #endregion
 
         private YouTubeService ytService;
 
@@ -164,9 +164,6 @@ namespace EyeTracker.ViewModel
                 
             }
         }
-
-
-
         public string ReturnId(string myTitle, int start)
         {
             var videoRequest = ytService.Search.List("snippet");
@@ -220,7 +217,6 @@ namespace EyeTracker.ViewModel
                 pointX = p.X;
                 pointY = p.Y;
             }
-
             LeftMouseClick(pointX, pointY-170);
         }
 

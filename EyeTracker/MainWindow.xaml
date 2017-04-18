@@ -7,7 +7,7 @@
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
         mc:Ignorable="d"
-        Title="MainWindow"
+        Title="EyeTracker"
         WindowState="Maximized">
     <Grid Margin="0,0,6,4" RenderTransformOrigin="0.5,0.5">
 
@@ -17,13 +17,12 @@
                 VerticalAlignment="Top" HorizontalAlignment="Right" 
                 Width="67" Height="36" Command="{Binding LetsSearch}" 
                 CommandParameter="{Binding ElementName=textBox, Path=Text}"/>
-
         <WebBrowser x:Name="webBrowser"
                     Margin="10,55,299,81" 
                     local:WebBrowserHelper.LinkSource="{Binding SelectedItem, UpdateSourceTrigger=PropertyChanged}" >
 
         </WebBrowser>
-        <ListView x:Name="playList" Margin="0,10,10,10" HorizontalAlignment="Right" Width="284" HorizontalContentAlignment="Stretch"
+        <ListView x:Name="playList" Margin="0,10,10,133" HorizontalAlignment="Right" Width="284" HorizontalContentAlignment="Stretch"
                   SelectedItem="{Binding Path=SelectedItem, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
             <ListView.ItemTemplate>
                 <DataTemplate>
@@ -38,11 +37,14 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <Button x:Name="buttonPlay" Content="Play/Pause" HorizontalAlignment="Left" 
+        <Button x:Name="buttonPlay" Content="Play/Pause" HorizontalAlignment="Left"
                 Margin="10,0,0,7" VerticalAlignment="Bottom" Height="34" Width="132"
                 Command="{Binding PlayButton}"/>
         <Button x:Name="buttonStop" Content="Stop" HorizontalAlignment="Left" Margin="147,0,0,7" VerticalAlignment="Bottom" Width="134" Height="34"/>
         <Slider x:Name="slider" Margin="10,0,299,46" VerticalAlignment="Bottom" Height="30"/>
+        <ListBox x:Name="listBox" HorizontalAlignment="Right" Height="128" Margin="0,0,10,0" VerticalAlignment="Bottom" Width="176"/>
+        <Button x:Name="button1" Content="hwndTest" HorizontalAlignment="Left" Margin="286,0,0,7" VerticalAlignment="Bottom" Width="147" Height="34"/>
+        <!--<Button x:Name="button2" Content="" HorizontalAlignment="Left" Margin="10,55,0,0" VerticalAlignment="Top" Width="69" Height="364" Background="Transparent"/>-->
 
     </Grid>
 </Window>
