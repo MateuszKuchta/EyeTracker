@@ -10,19 +10,18 @@
         Title="EyeTracker"
         WindowState="Maximized">
     <Grid Margin="0,0,6,4" RenderTransformOrigin="0.5,0.5">
-
-        <TextBox x:Name="textBox" Margin="10,10,371,0" VerticalAlignment="Top"
+        <TextBox x:Name="textBox" Margin="10,10,338,0" VerticalAlignment="Top"
                  Text="{Binding search}" Height="34" />
-        <Button x:Name="button" Content="Szukaj" Margin="0,10,299,0" 
+        <Button x:Name="button" Content="Szukaj" Margin="0,10,266,0" 
                 VerticalAlignment="Top" HorizontalAlignment="Right" 
                 Width="67" Height="36" Command="{Binding LetsSearch}" 
                 CommandParameter="{Binding ElementName=textBox, Path=Text}"/>
-        <WebBrowser x:Name="webBrowser"
-                    Margin="10,55,299,81" 
-                    local:WebBrowserHelper.LinkSource="{Binding SelectedItem, UpdateSourceTrigger=PropertyChanged}" >
 
+        <WebBrowser x:Name="webBrowser"
+                    Margin="20,78,287,60" 
+                    local:WebBrowserHelper.LinkSource="{Binding SelectedItem, UpdateSourceTrigger=PropertyChanged}" Panel.ZIndex="-1">
         </WebBrowser>
-        <ListView x:Name="playList" Margin="0,10,10,133" HorizontalAlignment="Right" Width="284" HorizontalContentAlignment="Stretch"
+        <ListView x:Name="playList" Margin="0,10,10,0" HorizontalAlignment="Right" Width="251" HorizontalContentAlignment="Stretch"
                   SelectedItem="{Binding Path=SelectedItem, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
             <ListView.ItemTemplate>
                 <DataTemplate>
@@ -37,13 +36,44 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <Button x:Name="buttonPlay" Content="Play/Pause" HorizontalAlignment="Left"
-                Margin="10,0,0,7" VerticalAlignment="Bottom" Height="34" Width="132"
-                Command="{Binding PlayButton}"/>
-        <Button x:Name="buttonStop" Content="Stop" HorizontalAlignment="Left" Margin="147,0,0,7" VerticalAlignment="Bottom" Width="134" Height="34"/>
-        <Slider x:Name="slider" Margin="10,0,299,46" VerticalAlignment="Bottom" Height="30"/>
-        <ListBox x:Name="listBox" HorizontalAlignment="Right" Height="128" Margin="0,0,10,0" VerticalAlignment="Bottom" Width="176"/>
-        <Button x:Name="button1" Content="hwndTest" HorizontalAlignment="Left" Margin="286,0,0,7" VerticalAlignment="Bottom" Width="147" Height="34"/>
+        <Button x:Name="buttonPlay" Content="Play/Pause"
+                Margin="10,0,266,0" VerticalAlignment="Bottom"
+                Command="{Binding PlayButton}" Height="34">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseEnter">
+                    <i:InvokeCommandAction Command="{Binding PlayButton}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </Button>
+        <Button Content="" Margin="0,55,0,39" HorizontalAlignment="Left" Width="20">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseEnter">
+                    <i:InvokeCommandAction Command="{Binding Rewind}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </Button>
+        <Button Content=""  Margin="20,441,287,39" VerticalAlignment="Bottom" Height="23">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseEnter">
+                    <i:InvokeCommandAction Command="{Binding VolumeDown}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </Button>
+        <Button Content="" HorizontalAlignment="Right" Margin="0,55,267,39" Width="20">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseEnter">
+                    <i:InvokeCommandAction Command="{Binding Forward}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </Button>
+        <Button Content="" Margin="20,55,287,0" VerticalAlignment="Top" Height="23">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseEnter">
+                    <i:InvokeCommandAction Command="{Binding VolumeUp}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </Button>
+
         <!--<Button x:Name="button2" Content="" HorizontalAlignment="Left" Margin="10,55,0,0" VerticalAlignment="Top" Width="69" Height="364" Background="Transparent"/>-->
 
     </Grid>

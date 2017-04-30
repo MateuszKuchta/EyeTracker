@@ -111,7 +111,7 @@ namespace EyeTracker.ViewModel
             ytService = Auth();
             GetVideoInfo();
         }
-        
+
         private YouTubeService Auth()
         {
 
@@ -147,7 +147,7 @@ namespace EyeTracker.ViewModel
                 var response = videoRequest.Execute();
 
                 ListView listView = UIHelper.FindChild<ListView>(Application.Current.MainWindow, "playList");
-                
+
                 if ((response.Items.Count > 0))
                 {
                     myListBox = new ObservableCollection<Model.Lista>();
@@ -161,7 +161,7 @@ namespace EyeTracker.ViewModel
                     listView.ItemsSource = myListBox;
                 }
                 else { }
-                
+
             }
         }
         public string ReturnId(string myTitle, int start)
@@ -179,8 +179,8 @@ namespace EyeTracker.ViewModel
                     {
                         model.title = response.Items[i].Snippet.Title;
                         model.description = response.Items[i].Snippet.Description;
-                        
-                        return ("http://www.youtube.com/v/" + item.Id.VideoId + "?controls=1&start="+start+"&autoplay=1");
+
+                        return ("http://www.youtube.com/v/" + item.Id.VideoId + "?controls=1&start=" + start + "&autoplay=1");
                     }
                 }
             }
@@ -195,7 +195,14 @@ namespace EyeTracker.ViewModel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
+        #region ICommands
         private ICommand letsSearchCommand;
+        private ICommand playButtonCommand;
+        private ICommand rewindCommand;
+        private ICommand forwardCommand;
+        private ICommand volumeDownCommand;
+        private ICommand volumeUpCommand;
+
         public ICommand LetsSearch
         {
             get
@@ -206,10 +213,72 @@ namespace EyeTracker.ViewModel
             }
         }
 
+        public ICommand PlayButton
+        {
+            get
+            {
+                if (playButtonCommand == null)
+                    playButtonCommand = new MvvmCommand(parameter => { PlayAndPauseAsync(); });
+                return playButtonCommand;
+            }
+        }
+
+        public ICommand Rewind
+        {
+            get
+            {
+                if (rewindCommand == null)
+                    rewindCommand = new MvvmCommand(parameter => { RewindVideoAsync(); });
+                return rewindCommand;
+            }
+        }
+
+        public ICommand Forward
+        {
+            get
+            {
+                if (forwardCommand == null)
+                    forwardCommand = new MvvmCommand(parameter => { ForwardVideoAsync(); });
+                return forwardCommand;
+            }
+        }
+
+        public ICommand VolumeDown
+        {
+            get
+            {
+                if (volumeDownCommand == null)
+                    volumeDownCommand = new MvvmCommand(parameter => { DoVolumeDownAsync(); });
+                return volumeDownCommand;
+            }
+        }
+
+        public ICommand VolumeUp
+        {
+            get
+            {
+                if (volumeUpCommand == null)
+                    volumeUpCommand = new MvvmCommand(parameter => { DoVolumeUpAsync(); });
+                return volumeUpCommand;
+            }
+        }
+        #endregion
         public static int pointX;
         public static int pointY;
+        public static long actualDate;
+        public static bool play = false;
+        public static bool rewind = false;
+        public static bool forward = false;
+        public static bool volUp = false;
+        public static bool volDown = false;
 
-        public void PlayAndPause()
+        public bool TimeBeforeClick()
+        {
+            Thread.Sleep(3000);
+            return true;
+        }
+
+        public void PlayAndPauseAsync()
         {
             POINT p;
             if (GetCursorPos(out p))
@@ -217,19 +286,87 @@ namespace EyeTracker.ViewModel
                 pointX = p.X;
                 pointY = p.Y;
             }
-            LeftMouseClick(pointX, pointY-170);
-        }
-
-        private ICommand playButtonCommand;
-        public ICommand PlayButton
-        {
-            get
+            Task.Run(() => play = TimeBeforeClick());
+            if (play)
             {
-                if (playButtonCommand == null)
-                    playButtonCommand = new MvvmCommand(parameter => { PlayAndPause(); });
-                return playButtonCommand;
+                LeftMouseClick(pointX, pointY - 170);
+                play = false;
             }
         }
+
+        public void RewindVideoAsync()
+        {
+            POINT p;
+            if (GetCursorPos(out p))
+            {
+                pointX = p.X;
+                pointY = p.Y;
+            }
+            Task.Run(() => rewind = TimeBeforeClick());
+            if (rewind)
+            {
+                LeftMouseClick(pointX + 170, pointY);
+                System.Windows.Forms.SendKeys.SendWait("J");
+                rewind = false;
+            }
+
+        }
+
+        public void ForwardVideoAsync()
+        {
+            POINT p;
+            if (GetCursorPos(out p))
+            {
+                pointX = p.X;
+                pointY = p.Y;
+            }
+            Task.Run(() => forward = TimeBeforeClick());
+            if (forward)
+            {
+                LeftMouseClick(pointX - 170, pointY);
+
+
+                System.Windows.Forms.SendKeys.SendWait("L");
+                forward = false;
+            }
+        }
+
+        public void DoVolumeDownAsync()
+        {
+            POINT p;
+            if (GetCursorPos(out p))
+            {
+                pointX = p.X;
+                pointY = p.Y;
+            }
+            Task.Run(() => volDown = TimeBeforeClick());
+            if (volDown)
+            {
+                LeftMouseClick(pointX, pointY - 170);
+
+                System.Windows.Forms.SendKeys.SendWait("{DOWN}");
+                volDown = false;
+            }
+        }
+
+        public void DoVolumeUpAsync()
+        {
+            POINT p;
+            if (GetCursorPos(out p))
+            {
+                pointX = p.X;
+                pointY = p.Y;
+            }
+            Task.Run(() => volUp = TimeBeforeClick());
+            if (volUp)
+            {
+                LeftMouseClick(pointX, pointY + 170);
+
+                System.Windows.Forms.SendKeys.SendWait("{UP}");
+                volUp = false;
+            }
+        }
+
         #region DllImport
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         static extern bool SetCursorPos(int x, int y);
