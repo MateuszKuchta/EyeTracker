@@ -218,7 +218,7 @@ namespace EyeTracker.ViewModel
             get
             {
                 if (playButtonCommand == null)
-                    playButtonCommand = new MvvmCommand(parameter => { PlayAndPauseAsync(); });
+                    playButtonCommand = new MvvmCommand(parameter => { DoPlayAndPause(); });
                 return playButtonCommand;
             }
         }
@@ -228,7 +228,7 @@ namespace EyeTracker.ViewModel
             get
             {
                 if (rewindCommand == null)
-                    rewindCommand = new MvvmCommand(parameter => { RewindVideoAsync(); });
+                    rewindCommand = new MvvmCommand(parameter => { DoRewindVideo(); });
                 return rewindCommand;
             }
         }
@@ -238,7 +238,7 @@ namespace EyeTracker.ViewModel
             get
             {
                 if (forwardCommand == null)
-                    forwardCommand = new MvvmCommand(parameter => { ForwardVideoAsync(); });
+                    forwardCommand = new MvvmCommand(parameter => { DoForwardVideo(); });
                 return forwardCommand;
             }
         }
@@ -248,7 +248,7 @@ namespace EyeTracker.ViewModel
             get
             {
                 if (volumeDownCommand == null)
-                    volumeDownCommand = new MvvmCommand(parameter => { DoVolumeDownAsync(); });
+                    volumeDownCommand = new MvvmCommand(parameter => { DoVolumeDown(); });
                 return volumeDownCommand;
             }
         }
@@ -258,11 +258,12 @@ namespace EyeTracker.ViewModel
             get
             {
                 if (volumeUpCommand == null)
-                    volumeUpCommand = new MvvmCommand(parameter => { DoVolumeUpAsync(); });
+                    volumeUpCommand = new MvvmCommand(parameter => { DoVolumeUp(); });
                 return volumeUpCommand;
             }
         }
         #endregion
+
         public static int pointX;
         public static int pointY;
         public static long actualDate;
@@ -278,7 +279,7 @@ namespace EyeTracker.ViewModel
             return true;
         }
 
-        public void PlayAndPauseAsync()
+        public void DoPlayAndPause()
         {
             POINT p;
             if (GetCursorPos(out p))
@@ -294,7 +295,7 @@ namespace EyeTracker.ViewModel
             }
         }
 
-        public void RewindVideoAsync()
+        public void DoRewindVideo()
         {
             POINT p;
             if (GetCursorPos(out p))
@@ -306,13 +307,14 @@ namespace EyeTracker.ViewModel
             if (rewind)
             {
                 LeftMouseClick(pointX + 170, pointY);
+                LeftMouseClick(pointX + 170, pointY);
                 System.Windows.Forms.SendKeys.SendWait("J");
                 rewind = false;
             }
 
         }
 
-        public void ForwardVideoAsync()
+        public void DoForwardVideo()
         {
             POINT p;
             if (GetCursorPos(out p))
@@ -324,14 +326,13 @@ namespace EyeTracker.ViewModel
             if (forward)
             {
                 LeftMouseClick(pointX - 170, pointY);
-
-
+                LeftMouseClick(pointX - 170, pointY);
                 System.Windows.Forms.SendKeys.SendWait("L");
                 forward = false;
             }
         }
 
-        public void DoVolumeDownAsync()
+        public void DoVolumeDown()
         {
             POINT p;
             if (GetCursorPos(out p))
@@ -343,13 +344,13 @@ namespace EyeTracker.ViewModel
             if (volDown)
             {
                 LeftMouseClick(pointX, pointY - 170);
-
+                LeftMouseClick(pointX, pointY - 170);
                 System.Windows.Forms.SendKeys.SendWait("{DOWN}");
                 volDown = false;
             }
         }
 
-        public void DoVolumeUpAsync()
+        public void DoVolumeUp()
         {
             POINT p;
             if (GetCursorPos(out p))
@@ -361,7 +362,7 @@ namespace EyeTracker.ViewModel
             if (volUp)
             {
                 LeftMouseClick(pointX, pointY + 170);
-
+                LeftMouseClick(pointX, pointY + 170);
                 System.Windows.Forms.SendKeys.SendWait("{UP}");
                 volUp = false;
             }
